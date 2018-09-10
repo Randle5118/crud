@@ -10,13 +10,17 @@ import { createStore , applyMiddleware } from 'redux';
 import roodReducer from './reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
+// thunk は ライフサイクルを利用するためのmiddleware
+import thunk from 'redux-thunk'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 
 
+// middlewareはapplyMiddlewareに置く
+// logger,thunk  <<  middleware
 const store = createStore(
     roodReducer,
     composeWithDevTools(
-        applyMiddleware(logger)
+        applyMiddleware(logger, thunk)
     )
 );
 
