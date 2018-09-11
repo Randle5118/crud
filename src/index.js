@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
 
 import PicturesPage from './Components/PicturesPage'
+import PicturesForm from './Components/PicturesForm'
 
 import { createStore , applyMiddleware } from 'redux';
 import roodReducer from './reducers';
@@ -42,6 +43,7 @@ ReactDOM.render(
         {/* componentの中にはimportされたページを入れる */}
         <Route exact path='/' component={ App }/>
         <Route exact path='/pictures' component={ PicturesPage }/>
+        <Route path='/pictures/new' component={ PicturesForm }/>
     </div>
     </Router>
 </Provider>
