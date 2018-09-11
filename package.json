@@ -18,7 +18,10 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }

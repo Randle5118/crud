@@ -1,0 +1,25 @@
+DB >> mongodb
+
+********************************************************************************************
+
+"express": "^4.16.3"
+>> framework for nodejs.
+
+********************************************************************************************
+
+"nodemon": "^1.18.4"
+>> help you in the dev , render the page when you change the file.
+
+********************************************************************************************
+
+babel　> translation the JavaScript Language ( ES6 , ES5 )
+how to use babl > make a file call ".babelrc" and put 
+{
+    "presets": ["env"]
+  }
+to the file .
+
+and change package.json
+
+********************************************************************************************
+
