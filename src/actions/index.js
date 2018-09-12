@@ -1,6 +1,7 @@
 // import the constants
 import { SET_PICTURES } from "../constants";
 
+
 // fetchPicturesが使われたときはdispatch を実行して
 // fetchの中の物を取りに行く
 
@@ -11,8 +12,6 @@ export const setPictures = (pictures) => ({
     pictures
 })
 
-
-
 export const fetchPictures = () => {
     // dispatch = 發送
     // fetch = 取り出し =>ブラウザにある函数で、same like Jquery's post or get .
@@ -22,6 +21,22 @@ export const fetchPictures = () => {
         .then(res => res.json())
         // and change json to be data 
         .then(data => dispatch(setPictures(data.pictures)))
-    }
-    
+    }    
 }
+
+export const savePicture = (data) => {
+    return dispatch =>{
+        fetch('/api/pictures', { 
+            method : 'post',
+            // stringify => 字符串 （str in Java)
+            // JSON.stringify() >> let data chage to stringify
+            body : JSON.stringify(data),
+            // format => 格式
+            // headers mean about the format when we upload 
+            headers :{
+                "Content-Type" : "application/json"
+            }
+        })
+    }
+}
+

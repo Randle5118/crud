@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
+import classnames from 'classnames'
+import { connect } from "react-redux";
+import { savePicture } from "../actions";
 
 class PictureForm extends Component {
   state ={
     title : '',
     cover : '',
-    errors : {}
+    errors : {},
+    // effect => 効果
+    // add the lodding effect
+    loading : false 
   }
 
   // e is mean event
@@ -31,13 +36,23 @@ class PictureForm extends Component {
     let errors = {};
     if (this.state.title === '') errors.title = "Title can't be empty"
     if (this.state.cover === '') errors.cover = "Cover can't be empty"
-    this.setState( { errors } )
+    this.setState( { errors } );
+
+    // Valid => 有效, attributes => 屬性
+    // Object.key() can return all attributes
+    // if this submit have any error , the "isValid" will not be 0
+    const isValid = Object.keys(errors).length === 0
+    if(isValid){
+      const { title, cover } = this.state;
+      this.setState({ loading: true });
+      this.props.savePicture({ title, cover })
+    }
   }
 
   render() { 
     return ( 
       // onSubmit is let the button useful 
-      <form className="ui form" onSubmit={ this.handleSubmit }>
+      <form className={ classnames( "ui", "form", { loading: this.state.loading })} onSubmit={ this.handleSubmit }>
         <h1>Add New Picture</h1>
         {/* // "!!" is let "this.state.errors.title" change to boolean
                if "this.state.errors.title" is ture then errors will be use */}
@@ -75,4 +90,4 @@ class PictureForm extends Component {
   }
 }
  
-export default PictureForm;
+export default connect(null , { savePicture }) (PictureForm);

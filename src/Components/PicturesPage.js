@@ -39,5 +39,5 @@ const mapStateToProps = (state) =>{
 };
 
 
-// 第二の関数はfetchPicturesを入れる
+// 第二の関数はfetchPicturesを入れる  
 export default connect(mapStateToProps, { fetchPictures })(PicturesPage)
