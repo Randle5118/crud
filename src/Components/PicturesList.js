@@ -1,12 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import PictureCard from './PictureCard';
 
 const PictureList = ({ pictures }) => {
   const emptyMessage =(
     <p>There are no Pictures yet here</p>
   )
   const picturesList =(
-    <p>Picture List</p>
+    <div className="ui four cards">
+      { pictures.map( picture => <PictureCard picture ={ picture } key={ picture._id } />) }
+    </div>
   )
   return (
     <div>
