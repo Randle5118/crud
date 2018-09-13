@@ -6,7 +6,7 @@ const PictureCard = ({ picture }) => {
   return (
     <div className="ui card">
       <div className="image">
-        <img src={ picture.cover } alt="Picture Cover"/>
+        <img src={ picture.cover } alt="Picture_Cover"/>
       </div>
       <div className="content">
         <div className="header">{ picture.title }</div>

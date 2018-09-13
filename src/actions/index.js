@@ -1,5 +1,5 @@
 // import the constants
-import { SET_PICTURES } from "../constants";
+import { SET_PICTURES , ADD_PICTURE } from "../constants";
 
 
 // fetchPicturesが使われたときはdispatch を実行して
@@ -37,6 +37,11 @@ const handleResponse = (response) => {
     }
 }
 
+export const addPicture = (picture) => ({
+    type: ADD_PICTURE,
+    picture
+})
+
 export const savePicture = (data) => {
     return dispatch =>{
         return fetch('/api/pictures', { 
@@ -50,6 +55,7 @@ export const savePicture = (data) => {
                 "Content-Type" : "application/json"
             }
         }).then(handleResponse)
+          .then( data => dispatch(addPicture(data.picture)))
     }
 }
 
