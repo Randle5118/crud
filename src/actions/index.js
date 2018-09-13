@@ -24,11 +24,24 @@ export const fetchPictures = () => {
     }    
 }
 
+const handleResponse = (response) => {
+    // when website responese 200 send the response.json , and i response error ,throw the error    
+    if(response.ok){
+        return response.json()
+    }else{
+        let error = new Error(response.statusText)
+        console.log('statusText' , response.statusText)
+        error.response = response
+        console.dir(error)
+        throw error 
+    }
+}
+
 export const savePicture = (data) => {
     return dispatch =>{
-        fetch('/api/pictures', { 
+        return fetch('/api/pictures', { 
             method : 'post',
-            // stringify => 字符串 （str in Java)
+            // stringify => 字符串 （str)
             // JSON.stringify() >> let data chage to stringify
             body : JSON.stringify(data),
             // format => 格式
@@ -36,7 +49,7 @@ export const savePicture = (data) => {
             headers :{
                 "Content-Type" : "application/json"
             }
-        })
+        }).then(handleResponse)
     }
 }
 

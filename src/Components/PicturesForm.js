@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames'
 import { connect } from "react-redux";
 import { savePicture } from "../actions";
+import { Redirect} from 'react-router-dom'
 
 class PictureForm extends Component {
   state ={
@@ -10,7 +11,8 @@ class PictureForm extends Component {
     errors : {},
     // effect => 効果
     // add the lodding effect
-    loading : false 
+    loading : false ,
+    done: false
   }
 
   // e is mean event
@@ -42,50 +44,68 @@ class PictureForm extends Component {
     // Object.key() can return all attributes
     // if this submit have any error , the "isValid" will not be 0
     const isValid = Object.keys(errors).length === 0
+
     if(isValid){
       const { title, cover } = this.state;
       this.setState({ loading: true });
-      this.props.savePicture({ title, cover })
+      // if 2 funcation in then , 1st will be true  2st will be falese . 
+      // if savePicture is error 
+      this.props.savePicture({ title, cover }).then(
+        // success
+        () => { this.setState({ done: true })},
+        // error
+        // when error , take the errors from backend , and setStae the errors and turn loading to false 
+        (err) => err.response.json().then(({ errors }) => { this.setState({ errors , loading:false }) })
+      )
     }
   }
 
   render() { 
+    const form =(
+        // onSubmit is let the button useful 
+        <form className={ classnames( "ui", "form", { loading: this.state.loading })} onSubmit={ this.handleSubmit }>
+          <h1>Add New Picture</h1>
+
+          { !!this.state.errors.global && <div className="ui negative message">{ this.state.errors.global }</div> }
+
+
+          {/* // "!!" is let "this.state.errors.title" change to boolean
+                if "this.state.errors.title" is ture then errors will be use */}
+          <div className= { classnames('field',  { error: !!this.state.errors.title })}>
+            <label htmlFor="title">Title</label>
+            <input 
+            type="text" 
+            name="title"
+            volue={ this.state.title }
+            onChange={ this.handleChange }
+            />
+            <span>{ this.state.errors.title }</span>
+          </div>
+
+          <div className= { classnames('field',  { error : !!this.state.errors.cover  })}>
+            <label htmlFor="title">Cover</label>
+            <input 
+            type="text" 
+            name="cover" 
+            volue={ this.state.cover }
+            onChange={ this.handleChange }
+            />
+            <span>{ this.state.errors.cover }</span>
+          </div>
+
+          <div className="field">
+            { this.state.cover !== '' && <img src={ this.state.cover } alt="cover" className="ui small borderd image"/>}
+          </div>
+
+          <div className="field">
+            <button className="ui primary button">Save</button>
+          </div>
+        </form>
+    )
     return ( 
-      // onSubmit is let the button useful 
-      <form className={ classnames( "ui", "form", { loading: this.state.loading })} onSubmit={ this.handleSubmit }>
-        <h1>Add New Picture</h1>
-        {/* // "!!" is let "this.state.errors.title" change to boolean
-               if "this.state.errors.title" is ture then errors will be use */}
-        <div className= { classnames('field',  { error: !!this.state.errors.title })}>
-          <label htmlFor="title">Title</label>
-          <input 
-          type="text" 
-          name="title"
-          volue={ this.state.title }
-          onChange={ this.handleChange }
-          />
-          <span>{ this.state.errors.title }</span>
-        </div>
-
-        <div className= { classnames('field',  { error : !!this.state.errors.cover  })}>
-          <label htmlFor="title">Cover</label>
-          <input 
-          type="text" 
-          name="cover" 
-          volue={ this.state.cover }
-          onChange={ this.handleChange }
-          />
-          <span>{ this.state.errors.cover }</span>
-        </div>
-
-        <div className="field">
-          { this.state.cover !== '' && <img src={ this.state.cover } alt="cover" className="ui small borderd image"/>}
-        </div>
-
-        <div className="field">
-          <button className="ui primary button">Save</button>
-        </div>
-      </form>
+      <div>
+        { this.state.done ? <Redirect to="/pictures" /> : form  }
+      </div>
     );
   }
 }
