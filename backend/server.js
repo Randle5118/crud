@@ -27,7 +27,10 @@ const validata = (data) => {
 mongodb.MongoClient.connect(dbUrl, (err, client) => {
     if(err) throw err;
     const db = client.db('crud')
+
+    // add new 
     app.get('/api/pictures', (req , res) =>{
+        // collection　=> 採集
         // collection is like talbe in database
         // find is like select in database , when find is empty , its mean find all.
         // toArray is mean, let the database to be array
@@ -36,6 +39,15 @@ mongodb.MongoClient.connect(dbUrl, (err, client) => {
             res.json({ pictures })
         })
     })
+
+    // edit
+    // :_id is mean the _id is a dynamic params
+    app.get('/api/pictures/:_id', (req , res) =>{
+        // collection to pictures and findOne by id In mongodb , and get the data call picture , response to json 
+        db.collection('pictures').findOne({ _id: new mongodb.ObjectID(req.params._id)}, (err, picture) => {
+            res.json({ picture });
+        })
+    })  
 
     // Verification　=> 驗證 , function => 功能
     // when you make a post fountin , you have to make a verification function.

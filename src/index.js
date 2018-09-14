@@ -44,6 +44,7 @@ ReactDOM.render(
         <Route exact path='/' component={ App }/>
         <Route exact path='/pictures' component={ PicturesPage }/>
         <Route path='/pictures/new' component={ PicturesForm }/>
+        <Route path='/picture/:_id' component={ PicturesForm }/>
     </div>
     </Router>
 </Provider>

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import classnames from 'classnames'
 import { connect } from "react-redux";
-import { savePicture } from "../actions";
-import { Redirect} from 'react-router-dom'
+import { savePicture, fetchPicture } from "../actions";
+import { Redirect } from 'react-router-dom'
+
 
 class PictureForm extends Component {
   state ={
@@ -13,6 +14,16 @@ class PictureForm extends Component {
     // add the lodding effect
     loading : false ,
     done: false
+  }
+
+  // beacuse this file is using in 2 Link, you should distinguish the Edit or add 
+  componentDidMount(){
+    const { match } = this.props;
+    if(match.params._id){
+      // use  console.log("_id:", match.params._id) to check the distinguish is work
+      this.props.fetchPicture(match.params._id);
+    }
+
   }
 
   // e is mean event
@@ -110,4 +121,4 @@ class PictureForm extends Component {
   }
 }
  
-export default connect(null , { savePicture }) (PictureForm);
+export default connect(null , { savePicture ,fetchPicture }) (PictureForm);

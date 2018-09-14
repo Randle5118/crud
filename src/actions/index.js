@@ -1,5 +1,6 @@
 // import the constants
-import { SET_PICTURES , ADD_PICTURE } from "../constants";
+import { SET_PICTURES , ADD_PICTURE, PICTURE_FETCHED} from "../constants";
+
 
 
 // fetchPicturesが使われたときはdispatch を実行して
@@ -10,6 +11,11 @@ import { SET_PICTURES , ADD_PICTURE } from "../constants";
 export const setPictures = (pictures) => ({
     type: SET_PICTURES,
     pictures
+})
+
+export const pictureFetched = (picture) => ({
+    type: PICTURE_FETCHED,
+    picture
 })
 
 export const fetchPictures = () => {
@@ -23,6 +29,15 @@ export const fetchPictures = () => {
         .then(data => dispatch(setPictures(data.pictures)))
     }    
 }
+
+export const fetchPicture = (id) => {
+    return dispatch => {
+        fetch(`/api/pictures/${id}`)
+        .then(res => res.json())
+        .then(data => dispatch(pictureFetched(data.picture)))
+    }
+}
+
 
 const handleResponse = (response) => {
     // when website responese 200 send the response.json , and i response error ,throw the error    
@@ -58,4 +73,3 @@ export const savePicture = (data) => {
           .then( data => dispatch(addPicture(data.picture)))
     }
 }
-
