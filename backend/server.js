@@ -49,6 +49,24 @@ mongodb.MongoClient.connect(dbUrl, (err, client) => {
         })
     })  
 
+    app.put('/api/pictures/:_id', (req, res) => {
+        const { errors, isValid }  = validata(req.body);
+        if(isValid){
+            const { title, cover } = req.body; 
+            db.collection('pictures').findOneAndUpdate(
+                { _id: new mongodb.ObjectId(req.params._id) },
+                { $set: { title , cover }},
+                { returnOriginal: false },
+                ( err, result ) => {
+                    if(err){ res.status(500).json({ errors: { global: err } }); return; }
+                    res.json({ picture: result.value })
+                }
+            )
+        }else{
+            res.status(400).json({ errors })
+        }
+    })
+
     // Verification　=> 驗證 , function => 功能
     // when you make a post fountin , you have to make a verification function.
     app.post('/api/pictures', (req , res) => {

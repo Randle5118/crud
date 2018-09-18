@@ -2,7 +2,7 @@
 
 import { combineReducers } from 'redux'
 
-import  pictures from './pictures'
+import  pictures from './picture'
 
 export default combineReducers({
     pictures

@@ -1,5 +1,5 @@
 // import the constants
-import { SET_PICTURES , ADD_PICTURE, PICTURE_FETCHED} from "../constants";
+import { SET_PICTURES , ADD_PICTURE, PICTURE_FETCHED , PICTURE_UPDATED} from "../constants";
 
 
 
@@ -60,6 +60,7 @@ export const addPicture = (picture) => ({
 export const savePicture = (data) => {
     return dispatch =>{
         return fetch('/api/pictures', { 
+            // post => add new data
             method : 'post',
             // stringify => 字符串 （str)
             // JSON.stringify() >> let data chage to stringify
@@ -71,5 +72,24 @@ export const savePicture = (data) => {
             }
         }).then(handleResponse)
           .then( data => dispatch(addPicture(data.picture)))
+    }
+}
+
+export const pictureUpdated = (picrure) => ({
+    type: PICTURE_UPDATED,
+    picrure
+})
+
+export const updatePicture = (data) => {
+    return dispatch =>{
+        return fetch(`/api/pictures/${data._id}`, { 
+            // change a data
+            method : 'put',
+            body : JSON.stringify(data),
+            headers :{
+                "Content-Type" : "application/json"
+            }
+        }).then(handleResponse)
+          .then( data => dispatch(pictureUpdated(data.picture)))
     }
 }

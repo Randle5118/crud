@@ -1,3 +1,5 @@
 export const SET_PICTURES = 'SET_PICTURES'
 export const ADD_PICTURE = 'ADD_PICTURE'
 export const PICTURE_FETCHED = 'PICTURE_FETCHED'
+export const PICTURE_UPDATED = 'PICTURE_UPDATED'
+
