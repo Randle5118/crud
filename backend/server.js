@@ -49,6 +49,15 @@ mongodb.MongoClient.connect(dbUrl, (err, client) => {
         })
     })  
 
+    app.delete('/api/pictures/:_id', (req , res) =>{
+        // collection to pictures and findOne by id In mongodb , and get the data call picture , response to json 
+        db.collection('pictures').deleteOne({ _id: new mongodb.ObjectID(req.params._id)}, (err, picture) => {
+            if(err){ res.status(500).json({ errors: { global: err } }); return; }
+            res.json({ picture });
+        })
+    })  
+
+
     app.put('/api/pictures/:_id', (req, res) => {
         const { errors, isValid }  = validata(req.body);
         if(isValid){

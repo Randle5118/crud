@@ -1,5 +1,5 @@
 // import the constants
-import { SET_PICTURES , ADD_PICTURE, PICTURE_FETCHED , PICTURE_UPDATED} from "../constants";
+import { SET_PICTURES , ADD_PICTURE, PICTURE_FETCHED , PICTURE_UPDATED, DELETE_PICTURE} from "../constants";
 
 
 
@@ -91,5 +91,24 @@ export const updatePicture = (data) => {
             }
         }).then(handleResponse)
           .then( data => dispatch(pictureUpdated(data.picture)))
+    }
+}
+
+export const pictureDelete = (pictureId) => ({
+    type: DELETE_PICTURE,
+    pictureId
+})
+
+// copy form updatePicture
+// when you wanna delete a data you only need ID
+export const deletePicture = (id) => {
+    return dispatch =>{
+        return fetch(`/api/pictures/${id}`, { 
+            method : 'delete',
+            headers :{
+                "Content-Type" : "application/json"
+            }
+        }).then(handleResponse)
+          .then( data => dispatch(pictureDelete(id)))
     }
 }

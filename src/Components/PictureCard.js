@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 
-const PictureCard = ({ picture }) => {
+const PictureCard = ({ picture , deletePicture }) => {
   return (
     <div className="ui card">
       <div className="image">
@@ -16,7 +16,8 @@ const PictureCard = ({ picture }) => {
       <div className="extra content">
         <div className="ui two buttons">
           <Link to={ `/picture/${picture._id}` } className="ui basic button green">Edit</Link>
-          <div className="ui basic button red">Delet</div>
+          {/* if you wanna delete a data you should pass the id  */}
+          <div className="ui basic button red" onClick={ () =>  deletePicture( picture._id ) }>Delet</div>
         </div>
       </div>
     </div>
@@ -25,6 +26,7 @@ const PictureCard = ({ picture }) => {
 
 PictureCard.propTypes = {
   picture: PropTypes.object.isRequired,
+  deletePicture: PropTypes.func.isRequired
 }
 
 

@@ -1,10 +1,14 @@
-import { SET_PICTURES ,ADD_PICTURE,PICTURE_FETCHED } from "../constants";
+import { SET_PICTURES, ADD_PICTURE, PICTURE_FETCHED, DELETE_PICTURE } from "../constants";
 
 // and change json to be data 
 const pictures = (state = [] , action ={}) => {
     switch (action.type) {
         case SET_PICTURES:
             return action.pictures;
+
+        case DELETE_PICTURE:
+            return state.filter( item => item._id !== action.pictureId )
+
         case ADD_PICTURE:
             return [
                 ...state , 

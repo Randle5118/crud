@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import PicturesList from './PicturesList'
-import { fetchPictures } from '../actions'
+import { fetchPictures, deletePicture } from '../actions'
 
 class PicturesPage extends Component {
   // dataの引渡しで componentDidMountというライフサイクルをつかう
@@ -20,7 +20,7 @@ class PicturesPage extends Component {
     return (
       <div>
         {/* 下のmapStateToProps内のpictureを導入 */}
-        <PicturesList pictures = {this.props.pictures}  />
+        <PicturesList pictures = {this.props.pictures} deletePicture= { this.props.deletePicture } />
       </div>
     );
   }
@@ -29,6 +29,7 @@ class PicturesPage extends Component {
 PicturesPage.propTypes ={
   pictures: PropTypes.array.isRequired,
   fetchPictures: PropTypes.func.isRequired,
+  deletePicture: PropTypes.func.isRequired,
 }
 
 // connectの一つ目のパラメータはmapStateToProps
@@ -40,4 +41,4 @@ const mapStateToProps = (state) =>{
 
 
 // 第二の関数はfetchPicturesを入れる  
-export default connect(mapStateToProps, { fetchPictures })(PicturesPage)
+export default connect(mapStateToProps, { fetchPictures, deletePicture })(PicturesPage)

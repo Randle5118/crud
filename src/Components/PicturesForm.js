@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import classnames from 'classnames'
-import { connect } from "react-redux";
-import { savePicture, fetchPicture, updatePicture } from "../actions";
-import { Redirect } from 'react-router-dom'
 
 class PictureForm extends Component {
   state ={
@@ -14,18 +11,6 @@ class PictureForm extends Component {
     // effect => 効果
     // add the lodding effect
     loading : false ,
-    done: false
-  }
-
-
-
-  // beacuse this file is using in 2 Link, you should distinguish the Edit or add 
-  componentDidMount(){
-    const { match } = this.props;
-    if(match.params._id){
-      // use  console.log("_id:", match.params._id) to check the distinguish is work
-      this.props.fetchPicture(match.params._id); 
-    }
   }
 
   // Receive 接收
@@ -74,25 +59,8 @@ class PictureForm extends Component {
     if(isValid){
       const { _id, title, cover } = this.state;
       this.setState({ loading: true });
-
-      if ( _id ){
-        // update is same with save a new data , so we can use same code to wirte
-        // update have to add _id to find a data
-          this.props.updatePicture({ _id, title, cover }).then(
-          () => { this.setState({ done: true })},
-          (err) => err.response.json().then(({ errors }) => { this.setState({ errors , loading:false }) })
-        )
-      }else{
-        // if 2 funcation in then , 1st will be true  2st will be falese . 
-        // if savePicture is error 
-        this.props.savePicture({ title, cover }).then(
-          // success
-          () => { this.setState({ done: true })},
-          // error
-          // when error , take the errors from backend , and setStae the errors and turn loading to false 
-          (err) => err.response.json().then(({ errors }) => { this.setState({ errors , loading:false }) })
-        )
-      }
+      this.props.savePicture({ _id, title, cover })
+      .catch((err) => err.response.json().then(({ errors }) => { this.setState({ errors , loading:false }) }))
     }
   }
 
@@ -139,23 +107,10 @@ class PictureForm extends Component {
     )
     return ( 
       <div>
-        { this.state.done ? <Redirect to="/pictures" /> : form  }
+        { form  }
       </div>
     );
   }
 }
 
-
-// mapStateToProps can use 2 parameter, 1st state 2st props
-const mapStateToProps = ( state, props ) =>{
-  const { match } = props
-  if(match.params._id){
-    return {
-      picture: state.pictures.find(item => item._id === match.params._id)
-    }
-  }
-  return { picture: null }
-}
-
- 
-export default connect(mapStateToProps , { savePicture ,fetchPicture, updatePicture }) (PictureForm);
+export default PictureForm;

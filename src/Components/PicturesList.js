@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import PictureCard from './PictureCard';
 
-const PictureList = ({ pictures }) => {
+const PictureList = ({ pictures , deletePicture }) => {
   const emptyMessage =(
     <p>There are no Pictures yet here</p>
   )
   const picturesList =(
     <div className="ui four cards">
-      { pictures.map( picture => <PictureCard picture ={ picture } key={ picture._id } />) }
+      { pictures.map( picture => <PictureCard deletePicture= { deletePicture } picture ={ picture } key={ picture._id } />) }
     </div>
   )
   return (
@@ -19,7 +19,8 @@ const PictureList = ({ pictures }) => {
 }
 
 PictureList.propTypes = {
-  pictures: PropTypes.array.isRequired
+  pictures: PropTypes.array.isRequired,
+  deletePicture: PropTypes.func.isRequired,
 }
 
 export default PictureList;
